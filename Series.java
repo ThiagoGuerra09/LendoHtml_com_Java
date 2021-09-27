@@ -1,7 +1,6 @@
 import java.io.FileInputStream;
 import java.io.*;
-import java.util.Scanner;
-import java.io.FileNotFoundException;
+
 
 
 public class Series {
@@ -34,16 +33,17 @@ public Series(){
         clone.setnome(this.nome);
         return clone;
     }
+    
 
     public void ler(String endereco) throws Exception{
         InputStreamReader irs = new InputStreamReader(new FileInputStream(endereco));
         BufferedReader br = new BufferedReader(irs);
 // nome
 
-        while(!br.readLine().contains("<table class=\"infobox_v2\""))
+        while(!br.readLine().contains("infobox_v2"))
         ;
         br.readLine();
-        this.nome=removetags(br.readLine());
+        this.nome=removetagsNovo(br.readLine());
 
 // formato
 
@@ -95,6 +95,7 @@ while(!br.readLine().contains("N.º de episódios"))
 this.ndeep=removetagsNovo(br.readLine());
 ndeepi=removedor(ndeep);
 
+br.close();
     }
 
    String removedor(String line){
@@ -162,15 +163,15 @@ ndeepi=removedor(ndeep);
 
     public static void main(String[] args)throws Exception {
     Series rei = new Series();
-    int i=0;
     String[] entrada = new String[1000];
     int numEntrada = 0;
 
     do {
-       entrada[numEntrada] = MyIO.readLine();    
+       entrada[numEntrada] = MyIO.readLine();   
+       if(isFim(entrada[numEntrada]) == false){ 
        rei.ler(entrada[numEntrada]);
            rei.imprimir();
-            //    System.out.println("teste");
+       }
 
     } while (isFim(entrada[numEntrada++]) == false);
          numEntrada--;  
@@ -178,10 +179,3 @@ ndeepi=removedor(ndeep);
 
     }
 }
-
-
-
-            // while(isFim(MyIO.readLine()) != true){
-//     rei.ler(MyIO.readLine());
-//     rei.imprimir();
-// }
